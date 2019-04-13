@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON examples</title>
+    <style>
+        label{
+            display:inline-block;
+            width:100px;
+        }
+        #selctedData span{
+            font-weight:bold;
+        }
+    </style>
+    <script src="inc/jquery-1.10.2.js"></script>
+    <script src="inc/Class.js"></script>
+    <script src="inc/Student.js"></script>
+
+    <script>
+       // var currentStudent="", oldStudent = "";
+        //var studentList = [new Student("David", "Berman", 18, true, "showChange1"), new Student("Anna", "Smith", 27, true, "showChange2"), new Student("Peter", "Jones", 23, true, "showChange3")];
+        var n = -1;
+        var txtbox;
+        var example1 = '{ "students" : [' +
+            '{ "First Name":"David" , "Last Name":"Berman", "Age":18 },' +
+            '{ "First Name":"Anna" , "Last Name":"Smith", "Age":27 },' +
+            '{ "First Name":"Peter" , "Last Name":"Jones", "Age":23 } ]}';
+        var obj = JSON.parse(example1);         // backup
+
+        // alternative
+        var example2 = {
+            "students": [
+                { "First Name": "David", "Last Name": "Berman", "Age": 18 },
+                { "First Name": "Anna", "Last Name": "Smith", "Age": 27 },
+                { "First Name": "Peter", "Last Name": "Jones", "Age": 23 }
+            ]
+        }
+
+
+        $(document).ready(function ()
+        {
+           
+            console.log(obj);
+            $.each(obj["students"], function (i, o) {
+                var opt = $("<option/>");
+                $(opt).val(i);
+                $(opt).text(o["First Name"] + " " + o["Last Name"]);
+                $("#selStudents").append(opt);
+
+
+        
+            })
+
+            $("#selStudents").change(function ()
+            {
+                n = parseInt($(this).find("option:selected").val());
+                var student = obj["students"][n];
+                var s = "";
+                for (var propertyName in student)
+                {
+                    
+                     s += "<div><label>" + propertyName + ":" + "</label><input value='" + student[propertyName] + "'/></div>";
+
+                 
+                }
+             $("#selctedData").html(s);
+             $("#inpAge").val(student.Age);
+             $("#monitor").html(student.ToHTMLString());
+
+            })
+            
+                    
+        })
+
+
+        function GetNewAge()
+        {
+            var newAge = $("#inpAge").val();
+
+            if (n != -1)
+            {
+                //var student = obj["students"][n];
+                var student = example2;
+                for (var propertyName in student)
+                {
+                }
+
+                student["Age"] = newAge;
+                //document.write(student["Age"]);
+                    
+                   
+
+
+                
+ 
+                /*var n = parseInt($(this).find("option:selected").val());
+                var student = obj["students"][n];
+                var s ="";
+                for (var propertyName in student) {
+                    s += "<div><label>" + propertyName + ":" + "</label><input value='" + "44444"+student[propertyName] + "'/></div>";
+                }
+                oldStudent = s;
+                $("#selctedData").html(s);
+                $("#inpAge").val(student.Age);
+                $("#monitor").html(student.ToHTMLString());*/
+                
+
+                // studentUpdate.SetValue("Age", newAge);
+               // document.write(oldStudent);
+                //studentUpdate.ToHTMLString
+                //studentUpdate
+            }
+
+            else
+            {
+                document.write("Age not exist!");
+
+            }
+            oldStudent = "";
+        }
+
+        function Reset() {
+
+        }
+       
+    </script>
+</head>
+<body>
+    <div id="" style="width:400px;margin:30px auto">
+        <div style="float:left">
+            <select id="selStudents" multiple></select>
+        </div>
+        <div style="float:left;margin-left:20px; position:absolute; top:30px; left: 500px; " id="selctedData" >
+            select student ..
+        </div>
+
+        <div style="width:400px;margin:30px auto; position:absolute; top:100px;">
+            <input type="number" min="1" max="100" id="inpAge" />
+            <button onclick="GetNewAge()">Update</button>
+            <button onclick="Reset()">Reset</button>
+            <div id="monitor"></div>
+        </div>
+
+        <div style="clear:both"></div>
+    </div>
+</body>
+</html>

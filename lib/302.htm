@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Using JS Classes and user defined Objects</title>
+    <style>
+        label {
+            display: inline-block;
+            width: 110px;
+        }
+        #monitor{
+            margin-top:20px;
+        }
+        #monitor span {
+            font-weight: bold;
+        }
+    </style>
+
+    <script src="inc/jquery-1.10.2.js"></script>
+    <script src="inc/Class.js"></script>
+    <script src="inc/Student.js"></script>
+    <script>
+        var student = new Student("Ana", "Zelenski", 22, true, "showChange");
+
+        $(document).ready(function () {
+            $("#inpAge").val(student.Age);
+            $("#monitor").html(student.ToHTMLString());
+        });
+
+        function showChange(prop, val) {
+            $("#monitor").html(student.ToHTMLString());
+            alert("Changed property: " + prop + "\n" + "changed value: " + val);
+        }
+        function GetNewAge() {
+            var newAge = $("#inpAge").val();
+            student.SetValue("Age", newAge);
+        }
+        function Reset() {
+            student.Reset();
+            $("#inpAge").val(student.Age);
+            $("#monitor").html(student.ToHTMLString());
+        }
+    </script>
+</head>
+<body>
+    <div style="width:400px;margin:30px auto">
+        <input type="number" min="1" max="100" id="inpAge" />
+        <button onclick="GetNewAge()">Update Age</button>
+        <button onclick="Reset()">Reset</button>
+        <div id="monitor"></div>
+    </div>
+</body>
+</html>
